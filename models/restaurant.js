@@ -3,8 +3,7 @@
  */
 
 var parse = require('co-body');
-var render = require('./lib/render');
-var db = require('./lib/db').db('restaurants');
+var db = require('../lib/db').db('restaurants');
 
 module.exports = Restaurant;
 
