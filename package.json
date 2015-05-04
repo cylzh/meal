@@ -1,0 +1,25 @@
+{
+  "name": "meal",
+  "description": "",
+  "version": "0.0.1",
+  "repository": "https://github.com/sonnyneko/meal",
+  "bugs": "https://github.com/sonnyneko/meal/issues",
+  "dependencies": {
+    "co": "*",
+    "co-body": "*",
+    "co-views": "*",
+    "koa": "*",
+    "koa-logger": "*",
+    "koa-route": "*",
+    "swig": "*",
+    "monk": "*",
+    "co-monk": "*"
+  },
+  "scripts": {
+    "start" : "node --harmony index.js"
+  },
+  "engines": {
+    "node": ">= 11.3"
+  },
+  "license": "MIT"
+}
