@@ -5,6 +5,8 @@ var app = module.exports = koa();
 
 app.use(logger());
 
+app.use(require('koa-static')(__dirname + '/static', {}));
+
 var index = require('./biz/index');
 
 app.use(route.get('/', index.index));

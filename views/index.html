@@ -1,10 +1,13 @@
-<html>
-<head>
-  <title>Blog</title>
-</head>
-<body>
-  {% for restaurant in restaurants %}
-  {{ restaurant.name }} <br>
-  {% endfor %}
-</body>
-</html>
+{% extends 'layout.html' %}
+
+{% block title %}Title{% endblock %}
+
+{% block content %}
+  <ul id="posts">
+    {% for restaurant in restaurants %}
+      <li>
+        <h2>{{ restaurant.name }}</h2>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

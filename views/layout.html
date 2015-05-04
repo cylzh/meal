@@ -1,0 +1,22 @@
+<html>
+<head>
+    <title>{% block title %}Meal{% endblock %}</title>
+    <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="lib/bootstrap/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="css/common.css">
+</head>
+<body>
+  {% include 'header.html' %}
+  
+  <section id="content">
+    {% block content %}
+      <p>Missing content!</p>
+    {% endblock %}
+  </section>
+  
+  {% include 'footer.html' %}
+  
+  <script src="lib/jquery/jquery-1.11.2.min.js"></script>
+  <script src="lib/bootstrap/js/bootstrap.min.js"></script>
+</body>
+</html>
