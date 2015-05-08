@@ -1,0 +1,54 @@
+{% extends 'layout.html' %}
+
+{% block title %}{{ restaurant.name }}{% endblock %}
+
+{% block content %}
+	<div class="container">
+		<div class="page-header">
+		  <h1>{{ restaurant.name }}</h1>
+		</div>
+		<ol class="breadcrumb">
+		  <li><a href="/">首页</a></li>
+		  <li class="active">{{ restaurant.name }}</li>
+		</ol>
+		<table id="table-menu" class="table table-striped">
+		  <thead>
+			  <th>餐名</th>
+			  <th>价格</th>
+			  <th>操作</th>
+		  </thead>
+		  <tbody>
+			  {% for meal in restaurant.menu %}
+			  <tr>
+				  <td>{{ meal.name }}</td>
+				  <td>{{ meal.price }}</td>
+				  <td>
+					  <a data-meal="{{ meal.name }}" data-price="{{ meal.price }}" data-role="btn-order" class="btn btn-default btn-xs">点餐</a>
+				  </td>
+			  </tr>
+			  {% endfor %}
+		  </tbody>
+		</table>
+		<form id="form-order" action="/restaurant/order" method="post">
+			<input id="restaurant-id" type="hidden" name="restaurantId" value="{{ restaurant._id.toString() }}" />
+			<input id="meal" type="hidden" name="meal" />
+			<input id="price" type="hidden" name="price" />
+		</form>
+	</div>
+{% endblock %}
+{% block script %}
+<script>
+	$(function () {
+		$('#table-menu').on('click', 'a[data-role=btn-order]', function () {
+			var $target = $(this);
+			var meal = $target.data('meal');
+			var price = $target.data('price');
+			
+			var $form = $('#form-order');
+			$form.find('#meal').val(meal);
+			$form.find('#price').val(price);
+			$form.submit();
+		});
+	});
+</script>
+{% endblock %}

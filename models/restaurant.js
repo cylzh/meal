@@ -17,7 +17,6 @@ Restaurant.prototype.save = function *() {
 		name: this.name,
 		menu: this.menu
 	};
-	
 	yield db.insert(restaurant);
 };
 
@@ -27,7 +26,7 @@ Restaurant.update = function *(id, restaurant) {
 	});
 	oldOne.name = restaurant.name;
 	oldOne.menu = restaurant.menu;
-	yield  db.updateById(id, oldOne);
+	yield db.updateById(id, oldOne);
 };
 
 Restaurant.remove = function *(id) {

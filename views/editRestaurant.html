@@ -1,0 +1,37 @@
+{% extends 'layout.html' %}
+
+{% block title %}添加餐馆{% endblock %}
+
+{% block content %}
+	<div class="container">
+		<div class="page-header">
+		  <h1>编辑：{{ restaurant.name }}</h1>
+		</div>
+		<ol class="breadcrumb">
+		  <li><a href="/admin">管理首页</a></li>
+		  <li class="active">编辑餐馆</li>
+		</ol>
+		<form id="form-new-restaurant" class="form-new-restaurant" method="post">
+		  <div class="form-group">
+		    <label for="restaurant-name" class="control-label">餐馆名称:</label>
+		    <input type="text" class="form-control" id="restaurant-name" name="name" value="{{ restaurant.name }}" />
+		  </div>
+		  {% for meal in restaurant.menu %}
+		  <div class="menu form-group form-inline">
+			  <span>餐名</span>
+			  <input type="text" class="meal-name form-control" value="{{ meal.name }}" />
+			  <span>价格</span>
+			  <input type="text" class="meal-price form-control" value="{{ meal.price }}" />
+			  <button class="add-menu btn btn-default">添加菜单</button>
+		  </div>
+		  {% endfor %}
+		  <div class="form-group">
+		     <input type="hidden" id="hidden-menu" name="menu" />
+		     <button type="submit" class="btn btn-primary">确认</button>
+		  </div>
+		</form>
+	</div>
+{% endblock %}
+{% block script %}
+<script src="/js/add-restaurant.js"></script>
+{% endblock %}

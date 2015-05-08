@@ -1,13 +1,26 @@
 {% extends 'layout.html' %}
 
-{% block title %}Title{% endblock %}
+{% block title %}{{ global.siteTitle }}{% endblock %}
 
 {% block content %}
-  <ul id="posts">
-    {% for restaurant in restaurants %}
-      <li>
-        <h2>{{ restaurant.name }}</h2>
-      </li>
-    {% endfor %}
-  </ul>
+<div class="index-jumbotron jumbotron">
+  <div class="container">
+    <h1>{{ global.siteTitle }}</h1>
+    <p>{{ global.siteDescription }}</p>
+  </div>
+</div>
+<div class="container">
+  <h2 class="index-title">开放点餐的餐馆</h2>
+  <div class="row">
+    <div class="col-md-6">
+      <ul class="list-unstyled">
+        {% for restaurant in restaurants %}
+          <li>
+             <a class="btn btn-lg" href="/restaurant/{{ restaurant._id.toString() }}">{{ restaurant.name }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>
 {% endblock %}

@@ -1,0 +1,73 @@
+{% extends 'layout.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div class="login-container container">
+	<div class="row">
+		<div class="login-bg col-sm-7">
+			<img class="center-block" src="/img/login-bg.jpg" alt="login" />
+		</div>
+		<div class="col-sm-5">
+			<form id="form-login" class="login-form form-horizontal" method="post">
+			  <div class="form-group">
+			    <label for="user-name" class="col-sm-3 control-label">姓名</label>
+			    <div class="col-sm-9">
+			      <input type="text" class="form-control" id="user-name" name="user" />
+			    </div>
+			  </div>
+			  <div class="form-group">
+			    <label for="user-name-confirm" class="col-sm-3 control-label">确认姓名</label>
+			    <div class="col-sm-9">
+			      <input type="text" class="form-control" id="user-name-confirm" />
+			    </div>
+			  </div>
+			  <div class="form-group">
+				  <div class="col-sm-offset-3 col-sm-9">
+					  <p class="login-warning bg-warning small"><span class="glyphicon glyphicon-exclamation-sign"></span> 请填写真实姓名，不然没饭吃！</p>
+				  </div>
+			  </div>
+			  <div class="form-group">
+			    <div class="col-sm-offset-3 col-sm-9">
+			      <button type="submit" class="btn btn-primary btn-block">登录</button>
+			    </div>
+			  </div>
+			</form>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+	$(function () {
+		var trim = $.trim;
+		$('#form-login').on('submit', function () {
+			var $userName = $('#user-name');
+			var $userNameConfirm = $('#user-name-confirm');
+			var userName = trim($userName.val());
+			var userNameConfirm = trim($userNameConfirm.val());
+			if (!userName) {
+				$userName.closest('.form-group').addClass('has-error');
+				return false;
+			}
+			if (userName !== userNameConfirm) {
+				$userNameConfirm.closest('.form-group').addClass('has-error');
+				return false;
+			}
+		}).on('blur', '#user-name', function () {
+			var $element = $(this);
+			var $group = $element.closest('.form-group');
+			if (trim($element.val())) {
+				$group.removeClass('has-error');
+			}
+		}).on('blur', '#user-name-confirm', function () {
+			var $element = $(this);
+			var $group = $element.closest('.form-group');
+			if (trim($element.val()) === trim($('#user-name').val())) {
+				$group.removeClass('has-error');
+			}
+		});
+	});
+</script>
+{% endblock %}

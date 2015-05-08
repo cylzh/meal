@@ -3,6 +3,8 @@
  */
  
  module.exports = {
-	 adminUser: 'Sonny',
-	 alipayImg: ''
+	 adminUser: ['猫咖', '叶洁', 'Sonny'],
+	 alipayImg: '',
+	 siteTitle: 'Meal',
+	 siteDescription: '专注点餐28年'
  };

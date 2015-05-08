@@ -1,0 +1,119 @@
+{% extends 'layout.html' %}
+
+{% block title %}订单管理{% endblock %}
+
+{% block content %}
+	<div class="container">
+		<div class="page-header">
+		  <h1>订单管理</h1>
+		</div>
+		<ol class="breadcrumb">
+		  <li><a href="/admin">管理首页</a></li>
+		  <li class="active">订单管理</li>
+		</ol>
+		<table id="table-menu" class="table">
+		  <thead>
+			  <th>订单状态</th>
+			  <th>用户</th>
+			  <th>餐馆</th>
+			  <th>餐名</th>
+			  <th>价格</th>
+			  <th>时间</th>
+			  <th>操作</th>
+		  </thead>
+		  <tbody>
+			  {% for order in orders %}
+			  <tr>
+				  <td class="order-status">
+					  {% if order.status === 'new' %}
+					  <span class="text-muted glyphicon glyphicon-question-sign"></span>
+					  {% elseif order.status === 'paid' %}
+					  <span class="text-danger glyphicon glyphicon-yen"></span>
+					  {% elseif order.status === 'success' %}
+					  <span class="text-success glyphicon glyphicon-check"></span>
+					  {% endif %}
+				  </td>
+				  <td>{{ order.user }}</td>
+				  <td>{{ order.restaurantName }}</td>
+				  <td class="text-info"><span class="glyphicon glyphicon-cutlery"></span> {{ order.meal }}</td>
+				  <td>{{ order.price }}</td>
+				  <td>{{ order.time }}</td>
+				  <td>
+					  {% if order.status === 'new' %}
+					  <a data-id="{{ order._id.toString() }}" data-toggle="modal" data-target="#modal-cancel" href="#"  class="btn btn-default btn-xs">取消订单</a>
+					  {% elseif order.status === 'paid' %}
+  					  <a data-id="{{ order._id.toString() }}" data-user="{{ order.user }}" data-money="{{ order.price }}" data-toggle="modal" data-target="#modal-paid" href="#"  class="btn btn-primary btn-xs">确认付款</a>
+					  {% elseif order.status === 'success' %}
+					  <small class="text-success"><span class="glyphicon glyphicon-check"></span> 订餐完成</small>
+					  {% endif %}
+				  </td>
+			  </tr>
+			  {% endfor %}
+		  </tbody>
+		</table>
+	</div>
+{% endblock %}
+{% block script %}
+<div id="modal-paid" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4>确认收款</h4>
+      </div>
+      <div class="modal-body">
+        <div class="text-info"><span class="glyphicon glyphicon-exclamation-sign"></span> 确认收到<span data-role="user" class="text-danger"></span>的<span data-role="money" class="text-danger"></span>块钱吗？</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button id="confirm-pay" type="button" class="btn btn-primary">确认收款</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="modal-cancel" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4>确定取消订单吗？</h4>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button id="confirm-cancel" type="button" class="btn btn-primary">确定</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+	$(function () {
+		var id = '';
+		$('#modal-paid').on('show.bs.modal', function (event) {
+			var $modal = $(this);
+			$modal.find('[data-role=user]').text($(event.relatedTarget).data('user'));
+			$modal.find('[data-role=money]').text($(event.relatedTarget).data('money'));
+			id = $(event.relatedTarget).data('id');
+		}).on('click', '#confirm-pay', function () {
+			$.ajax({
+				url: '/admin/ajax_confirm_pay/' + id,
+				dataType: 'jsonp'
+			}).done(function (data) {
+				$('#modal-paid').modal('hide');
+				window.location.reload(true);
+			});
+		});
+		
+		$('#modal-cancel').on('show.bs.modal', function (event) {
+			id = $(event.relatedTarget).data('id');
+		}).on('click', '#confirm-cancel', function () {
+			$.ajax({
+				url: '/order/ajax_cancel_order/' + id,
+				dataType: 'jsonp'
+			}).done(function (data) {
+				$('#modal-cancel').modal('hide');
+				window.location.reload(true);
+			});
+		});
+	});
+</script>
+{% endblock %}

@@ -1,0 +1,107 @@
+{% extends 'layout.html' %}
+
+{% block title %}今日订单{% endblock %}
+
+{% block content %}
+	<div class="container">
+		<div class="page-header">
+		  <h1>今日订单</h1>
+		</div>
+		<ol class="breadcrumb">
+		  <li><a href="/">首页</a></li>
+		  <li class="active">今日订单</li>
+		</ol>
+		<table id="table-menu" class="table">
+		  <thead>
+			  <th>餐馆</th>
+			  <th>餐名</th>
+			  <th>价格</th>
+			  <th>时间</th>
+			  <th>操作</th>
+		  </thead>
+		  <tbody>
+			  {% for order in orders %}
+			  <tr>
+				  <td>{{ order.restaurantName }}</td>
+				  <td class="text-info"><span class="glyphicon glyphicon-cutlery"></span> {{ order.meal }}</td>
+				  <td>{{ order.price }}</td>
+				  <td>{{ order.time }}</td>
+				  <td>
+					  {% if order.status === 'new' %}
+					  <a data-id="{{ order._id.toString() }}" data-toggle="modal" data-target="#modal-pay" href="#"  class="btn btn-primary btn-xs">付款</a>
+					  <a data-id="{{ order._id.toString() }}" data-toggle="modal" data-target="#modal-cancel" href="#"  class="btn btn-info btn-xs">取消订单</a>
+					  {% elseif order.status === 'paid' %}
+  					  <small class="text-muted"><span class="glyphicon glyphicon-yen"></span> 已付款，等待管理员确认</small>
+					  {% elseif order.status === 'success' %}
+					  <small class="text-success"><span class="glyphicon glyphicon-check"></span> 订餐完成，请耐心等待美食吧</small>
+					  {% endif %}
+				  </td>
+			  </tr>
+			  {% endfor %}
+		  </tbody>
+		</table>
+	</div>
+{% endblock %}
+{% block script %}
+<div id="modal-pay" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4>付款</h4>
+      </div>
+      <div class="modal-body">
+        <p class="text-info text-center">推荐使用手机支付宝钱包APP扫码下面的付款码付款</p>
+        <p class="text-danger text-center">付款完成后记得通知管理员确认收款</p>
+        <img class="center-block" src="/img/alipay.jpg" />
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button id="confirm-pay" type="button" class="btn btn-primary">确认付款</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="modal-cancel" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4>确定取消订单吗？</h4>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button id="confirm-cancel" type="button" class="btn btn-primary">确定</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+	$(function () {
+		var id = '';
+		$('#modal-pay').on('show.bs.modal', function (event) {
+			id = $(event.relatedTarget).data('id');
+		}).on('click', '#confirm-pay', function () {
+			$.ajax({
+				url: '/order/ajax_pay/' + id,
+				dataType: 'jsonp'
+			}).done(function (data) {
+				$('#modal-pay').modal('hide');
+				window.location.reload(true);
+			});
+		});
+		
+		$('#modal-cancel').on('show.bs.modal', function (event) {
+			id = $(event.relatedTarget).data('id');
+		}).on('click', '#confirm-cancel', function () {
+			$.ajax({
+				url: '/order/ajax_cancel_order/' + id,
+				dataType: 'jsonp'
+			}).done(function (data) {
+				$('#modal-pay').modal('hide');
+				window.location.reload(true);
+			});
+		});
+	});
+</script>
+{% endblock %}

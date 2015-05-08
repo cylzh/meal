@@ -12,6 +12,7 @@
     "koa-logger": "*",
     "koa-route": "*",
     "koa-static": "*",
+    "koa-session": "*",
     "swig": "*",
     "monk": "*",
     "co-monk": "*"
