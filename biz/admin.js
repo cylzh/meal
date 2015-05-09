@@ -10,7 +10,9 @@ module.exports.index = function *() {
 	authorize(this);
 	
 	var restaurantsList = yield Restaurant.getRestaurantsList();
-	var ordersList = yield Order.getOrdersList();
+	var ordersList = yield Order.getOrdersList({
+		day: time(new Date()).day
+	});
 	
 	this.body = yield render(this, 'admin', {
 		nav: 'admin',
@@ -89,6 +91,7 @@ module.exports.orders = function *() {
 	});
 	
 	this.body = yield render(this, 'orders', {
+		day: day,
 		orders: ordersList
 	});
 };

@@ -2,6 +2,10 @@
 
 {% block title %}订单管理{% endblock %}
 
+{% block style %}
+<link rel="stylesheet" href="/lib/bootstrap-datepicker/css/bootstrap-datepicker3.min.css">
+{% endblock %}
+
 {% block content %}
 	<div class="container">
 		<div class="page-header">
@@ -11,6 +15,15 @@
 		  <li><a href="/admin">管理首页</a></li>
 		  <li class="active">订单管理</li>
 		</ol>
+		<form class="form-inline">
+		  <div class="form-group">
+		    <label for="order-form-day">日期</label>
+		    <div class="input-group date">
+			  <input type="text" class="form-control" value="{{ day }}" name="day" readonly /><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+			</div>
+		  </div>
+		  <button type="submit" class="btn btn-default">查询</button>
+		</form>
 		<table id="table-menu" class="table">
 		  <thead>
 			  <th>订单状态</th>
@@ -54,6 +67,8 @@
 	</div>
 {% endblock %}
 {% block script %}
+<script src="/lib/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+<script src="/lib/bootstrap-datepicker/locales/bootstrap-datepicker.zh-CN.min.js"></script>
 <div id="modal-paid" class="modal fade" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
@@ -113,6 +128,14 @@
 				$('#modal-cancel').modal('hide');
 				window.location.reload(true);
 			});
+		});
+		
+		$('.input-group.date').datepicker({
+		    format: "yyyy-mm-dd",
+		    endDate: '0d',
+		    language: "zh-CN",
+		    autoclose: true,
+		    todayHighlight: true
 		});
 	});
 </script>

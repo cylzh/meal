@@ -7,31 +7,40 @@
 		<div class="page-header">
 		  <h1>管理首页</h1>
 		</div>
-		<p>目前有{{ restaurants.length }}家餐馆</p>
-		<p><a href="/admin/new_restaurant" class="btn btn-primary">添加新的餐馆</a></p>
-		<table class="table">
-		  <thead>
-			  <tr>
-				  <th>名称</th>
-				  <th>操作</th>
-			  </tr>
-		  </thead>
-		  <tbody>
-		  {% for restaurant in restaurants %}
-			  <tr>
-				  <td>{{ restaurant.name }}</td>
-				  <td>
-					  <a href="/admin/restaurant/{{ restaurant._id.toString() }}/edit" class="btn btn-primary btn-xs">编辑</a>
-					  <a data-id="{{ restaurant._id.toString() }}" data-toggle="modal" data-target="#modal-delete-restaurant" href="#" class="btn btn-default btn-xs">删除</a>
-				  </td>
-			  </tr>
-		  {% endfor %}
-		  </tbody>
-		</table>
-		<p>
-			<span class="glyphicon glyphicon-exclamation-sign"></span> 目前有<span class="text-danger">{{ ordersCount }}</span>个订单
-		</p>
-		<p><a href="/admin/orders" class="btn btn-primary">查看订单</a></p>
+		<div class="panel panel-info">
+		  <div class="panel-heading">餐馆管理</div>
+		  <div class="panel-body">
+			<p><a href="/admin/new_restaurant" class="btn btn-primary">添加新的餐馆</a></p>
+			<table class="table">
+			  <thead>
+				  <tr>
+					  <th>名称</th>
+					  <th>操作</th>
+				  </tr>
+			  </thead>
+			  <tbody>
+			  {% for restaurant in restaurants %}
+				  <tr>
+					  <td>{{ restaurant.name }}</td>
+					  <td>
+						  <a href="/admin/restaurant/{{ restaurant._id.toString() }}/edit" class="btn btn-primary btn-xs">编辑</a>
+						  <a data-id="{{ restaurant._id.toString() }}" data-toggle="modal" data-target="#modal-delete-restaurant" href="#" class="btn btn-default btn-xs">删除</a>
+					  </td>
+				  </tr>
+			  {% endfor %}
+			  </tbody>
+			</table>
+		  </div>
+		</div>
+		<div class="panel panel-info">
+		  <div class="panel-heading">订单管理</div>
+		  <div class="panel-body">
+		    <p>
+				<span class="glyphicon glyphicon-exclamation-sign"></span> 今天有<span class="text-danger">{{ ordersCount }}</span>个订单
+			</p>
+			<p><a href="/admin/orders" class="btn btn-primary">查看订单</a></p>
+		  </div>
+		</div>
 	</div>
 {% endblock %}
 {% block script %}
