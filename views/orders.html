@@ -24,6 +24,12 @@
 		  </div>
 		  <button type="submit" class="btn btn-default">查询</button>
 		</form>
+		<p>
+			一共{{ orders.length }}个订单 
+			<span class="text-muted glyphicon glyphicon-question-sign"></span>未付款 
+			<span class="text-danger glyphicon glyphicon-yen"></span>已付款 
+			<span class="text-success glyphicon glyphicon-check"></span>交易完成 
+		</p>
 		<table id="table-menu" class="table">
 		  <thead>
 			  <th>订单状态</th>
@@ -53,9 +59,9 @@
 				  <td>{{ order.time }}</td>
 				  <td>
 					  {% if order.status === 'new' %}
-					  <a data-id="{{ order._id.toString() }}" data-toggle="modal" data-target="#modal-cancel" href="#"  class="btn btn-default btn-xs">取消订单</a>
+					  <a data-id="{{ order._id.toString() }}" data-toggle="modal" data-target="#modal-cancel" href="#"  class="btn btn-default btn-sm">取消订单</a>
 					  {% elseif order.status === 'paid' %}
-  					  <a data-id="{{ order._id.toString() }}" data-user="{{ order.user }}" data-money="{{ order.price }}" data-toggle="modal" data-target="#modal-paid" href="#"  class="btn btn-primary btn-xs">确认付款</a>
+  					  <a data-id="{{ order._id.toString() }}" data-user="{{ order.user }}" data-money="{{ order.price }}" data-toggle="modal" data-target="#modal-paid" href="#"  class="btn btn-primary btn-sm">确认付款</a>
 					  {% elseif order.status === 'success' %}
 					  <small class="text-success"><span class="glyphicon glyphicon-check"></span> 订餐完成</small>
 					  {% endif %}
@@ -74,7 +80,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4>确认收款</h4>
+        <h4 class="modal-title">确认收款</h4>
       </div>
       <div class="modal-body">
         <div class="text-info"><span class="glyphicon glyphicon-exclamation-sign"></span> 确认收到<span data-role="user" class="text-danger"></span>的<span data-role="money" class="text-danger"></span>块钱吗？</div>
@@ -91,7 +97,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4>确定取消订单吗？</h4>
+        <h4 class="modal-title">确定取消订单吗？</h4>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>

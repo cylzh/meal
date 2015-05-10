@@ -5,7 +5,9 @@ var Restaurant = require('../models/restaurant');
 var global = require('../models/global');
 
 module.exports.index = function *() {
-	var restaurantsList = yield Restaurant.getRestaurantsList();
+	var restaurantsList = yield Restaurant.getRestaurantsList({
+		serving: true
+	});
 	
 	this.body = yield render(this, 'index', {
 		global: global,

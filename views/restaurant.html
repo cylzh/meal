@@ -11,24 +11,26 @@
 		  <li><a href="/">首页</a></li>
 		  <li class="active">{{ restaurant.name }}</li>
 		</ol>
-		<table id="table-menu" class="table table-striped">
-		  <thead>
-			  <th>餐名</th>
-			  <th>价格</th>
-			  <th>操作</th>
-		  </thead>
-		  <tbody>
-			  {% for meal in restaurant.menu %}
-			  <tr>
-				  <td>{{ meal.name }}</td>
-				  <td>{{ meal.price }}</td>
-				  <td>
-					  <a data-meal="{{ meal.name }}" data-price="{{ meal.price }}" data-role="btn-order" class="btn btn-default btn-xs">点餐</a>
-				  </td>
-			  </tr>
-			  {% endfor %}
-		  </tbody>
-		</table>
+		<ul id="menu" class="list-unstyled">
+			{% for meal in restaurant.menu %}
+			<li>
+				<div class="panel panel-info">
+	              <div class="panel-heading">
+	                <h2 class="panel-title"><span class="glyphicon glyphicon-cutlery"></span> {{ meal.name }}</h2>
+	              </div>
+	              <div class="panel-body">
+					<div class="row">
+						<div class="col-xs-11 col-md-11">价格: ￥{{ meal.price }}</div>
+						<div class="col-xs-1 col-md-1">
+							<a data-meal="{{ meal.name }}" data-price="{{ meal.price }}" data-role="btn-order" class="btn btn-primary btn-sm">点餐</a>
+						</div>
+					</div>
+	              </div>
+	            </div>
+			</li>
+			{% endfor %}
+		</ul>
+		
 		<form id="form-order" action="/restaurant/order" method="post">
 			<input id="restaurant-id" type="hidden" name="restaurantId" value="{{ restaurant._id.toString() }}" />
 			<input id="meal" type="hidden" name="meal" />
@@ -39,7 +41,7 @@
 {% block script %}
 <script>
 	$(function () {
-		$('#table-menu').on('click', 'a[data-role=btn-order]', function () {
+		$('#menu').on('click', 'a[data-role=btn-order]', function () {
 			var $target = $(this);
 			var meal = $target.data('meal');
 			var price = $target.data('price');

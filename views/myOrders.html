@@ -1,46 +1,54 @@
 {% extends 'layout.html' %}
 
-{% block title %}今日订单{% endblock %}
+{% block title %}我的订单{% endblock %}
 
 {% block content %}
-	<div class="container">
-		<div class="page-header">
-		  <h1>今日订单</h1>
-		</div>
-		<ol class="breadcrumb">
-		  <li><a href="/">首页</a></li>
-		  <li class="active">今日订单</li>
-		</ol>
-		<table id="table-menu" class="table">
-		  <thead>
-			  <th>餐馆</th>
-			  <th>餐名</th>
-			  <th>价格</th>
-			  <th>时间</th>
-			  <th>操作</th>
-		  </thead>
-		  <tbody>
-			  {% for order in orders %}
-			  <tr>
-				  <td>{{ order.restaurantName }}</td>
-				  <td class="text-info"><span class="glyphicon glyphicon-cutlery"></span> {{ order.meal }}</td>
-				  <td>{{ order.price }}</td>
-				  <td>{{ order.time }}</td>
-				  <td>
-					  {% if order.status === 'new' %}
-					  <a data-id="{{ order._id.toString() }}" data-toggle="modal" data-target="#modal-pay" href="#"  class="btn btn-primary btn-xs">付款</a>
-					  <a data-id="{{ order._id.toString() }}" data-toggle="modal" data-target="#modal-cancel" href="#"  class="btn btn-info btn-xs">取消订单</a>
-					  {% elseif order.status === 'paid' %}
-  					  <small class="text-muted"><span class="glyphicon glyphicon-yen"></span> 已付款，等待管理员确认</small>
-					  {% elseif order.status === 'success' %}
-					  <small class="text-success"><span class="glyphicon glyphicon-check"></span> 订餐完成，请耐心等待美食吧</small>
-					  {% endif %}
-				  </td>
-			  </tr>
-			  {% endfor %}
-		  </tbody>
-		</table>
+<div class="container">
+	<div class="page-header">
+	  <h1>我的订单</h1>
 	</div>
+	<ol class="breadcrumb">
+	  <li><a href="/">首页</a></li>
+	  <li class="active">我的订单</li>
+	</ol>
+	{% for order in orders %}
+	{% if order.status === 'new' %}
+	<div class="panel panel-primary">
+	{% elseif order.status === 'paid' %}
+	<div class="panel panel-info">
+	{% elseif order.status === 'success' %}
+	<div class="panel panel-default">
+	{% else %}
+	<div class="panel panel-default">
+	{% endif %}
+      <div class="panel-heading">
+		<h3 class="panel-title">
+			<strong class="my-orders-day">{{ order.day }}</strong>
+			<i class="my-orders-restaurant"><span class="glyphicon glyphicon-home"></span> {{ order.restaurantName }}</i></h3>
+      </div>
+      <div class="panel-body">
+		<div class="my-orders-meal row">
+			<div class="col-md-7">
+				<span class="glyphicon glyphicon-cutlery"></span> {{ order.meal }}
+			</div>
+			<div class="col-md-2">
+				{{ order.price }}
+			</div>
+			<div class="col-md-3">
+				{% if order.status === 'new' %}
+				<a data-id="{{ order._id.toString() }}" data-toggle="modal" data-target="#modal-pay" href="#"  class="btn btn-primary btn-sm">付款</a>
+				<a data-id="{{ order._id.toString() }}" data-toggle="modal" data-target="#modal-cancel" href="#"  class="btn btn-info btn-sm">取消订单</a>
+				{% elseif order.status === 'paid' %}
+				<span class="text-muted"><span class="glyphicon glyphicon-yen"></span> 已付款</span>
+				{% elseif order.status === 'success' %}
+				<span class="text-success"><span class="glyphicon glyphicon-check"></span> 订餐完成</span>
+				{% endif %}
+			</div>
+		</div>
+      </div>
+    </div>
+	{% endfor %}
+</div>
 {% endblock %}
 {% block script %}
 <div id="modal-pay" class="modal fade" tabindex="-1" role="dialog">
@@ -48,7 +56,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4>付款</h4>
+        <h4 class="modal-title">付款</h4>
       </div>
       <div class="modal-body">
         <p class="text-info text-center">推荐使用手机支付宝钱包APP扫码下面的付款码付款</p>
@@ -67,7 +75,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4>确定取消订单吗？</h4>
+        <h4 class="modal-title">确定取消订单吗？</h4>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>

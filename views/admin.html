@@ -11,9 +11,10 @@
 		  <div class="panel-heading">餐馆管理</div>
 		  <div class="panel-body">
 			<p><a href="/admin/new_restaurant" class="btn btn-primary">添加新的餐馆</a></p>
-			<table class="table">
+			<table id="table-restaurants" class="table">
 			  <thead>
 				  <tr>
+					  <th>开启订餐</th>
 					  <th>名称</th>
 					  <th>操作</th>
 				  </tr>
@@ -21,10 +22,16 @@
 			  <tbody>
 			  {% for restaurant in restaurants %}
 				  <tr>
+					  <td>
+						  <label class="toggle">
+						  	<input data-role="serving" data-id="{{ restaurant._id.toString() }}" type="checkbox" {% if restaurant.serving %}checked{% endif %}>
+						  	<span class="handle"></span>
+						  </label>
+					  </td>
 					  <td>{{ restaurant.name }}</td>
 					  <td>
-						  <a href="/admin/restaurant/{{ restaurant._id.toString() }}/edit" class="btn btn-primary btn-xs">编辑</a>
-						  <a data-id="{{ restaurant._id.toString() }}" data-toggle="modal" data-target="#modal-delete-restaurant" href="#" class="btn btn-default btn-xs">删除</a>
+						  <a href="/admin/restaurant/{{ restaurant._id.toString() }}/edit" class="btn btn-primary btn-sm">编辑</a>
+						  <a data-id="{{ restaurant._id.toString() }}" data-toggle="modal" data-target="#modal-delete-restaurant" href="#" class="btn btn-default btn-sm">删除</a>
 					  </td>
 				  </tr>
 			  {% endfor %}
@@ -32,7 +39,7 @@
 			</table>
 		  </div>
 		</div>
-		<div class="panel panel-info">
+		<div class="panel panel-warning">
 		  <div class="panel-heading">订单管理</div>
 		  <div class="panel-body">
 		    <p>
@@ -49,7 +56,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        确定删除吗？
+        <h4 class="modal-title">确定删除吗？</h4>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
@@ -70,6 +77,22 @@
 			}).done(function (data) {
 				$('#modal-delete-restaurant').modal('hide');
 				window.location.reload(true);
+			});
+		});
+		
+		$('#table-restaurants').on('change', '[data-role=serving]', function () {
+			var $target = $(this);
+			var isServing = $(this).prop('checked');
+			var id = $(this).data('id');
+			
+			$.ajax({
+				url: '/admin/ajax_update_serving/' + id,
+				dataType: 'jsonp',
+				data: {
+					serving: isServing
+				}
+			}).done(function (data) {
+				//window.location.reload(true);
 			});
 		});
 	});

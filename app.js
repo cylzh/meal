@@ -44,6 +44,7 @@ app.use(route.post('/admin/restaurant/:id/edit', admin.updateRestaurant));
 app.use(route.get('/admin/ajax_delete_restaurant/:id', admin.ajaxDeleteRestaurant));
 app.use(route.get('/admin/orders', admin.orders));
 app.use(route.get('/admin/ajax_confirm_pay/:id', admin.ajaxConfirmPay));
+app.use(route.get('/admin/ajax_update_serving/:id', admin.ajaxUpdateServing));
 
 app.listen(3000);
 console.log('listening on port 3000');

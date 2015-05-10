@@ -1,11 +1,12 @@
-<nav class="navbar navbar-inverse">
+<nav class="navbar navbar-default navbar-custom" role="navigation">
 	<div class="container">
 	  <div class="navbar-header">
 	    <a class="navbar-brand" href="/"><span class="glyphicon glyphicon-cutlery"></span></a>
 	  </div>
+	  <div class="collapse navbar-collapse">
 	  {% if user %}
 	  <ul class="nav navbar-nav">
-	    <li {% if nav === 'myOrders' %}class="active"{% endif %}><a href="/myOrders">今日菜单</a></li>
+	    <li {% if nav === 'myOrders' %}class="active"{% endif %}><a href="/myOrders">我的订单</a></li>
 		{% if user.isAdmin %}
 		<li {% if nav ==='admin' %}class="active"{% endif %} ><a href="/admin">管理入口</a></li>
 		{% endif %}
@@ -22,5 +23,6 @@
 	  {% else %}
 	  <p class="navbar-text navbar-right">hi, 请先登录</p>
 	  {% endif %}
+	  </div>
 	</div>
 </nav>

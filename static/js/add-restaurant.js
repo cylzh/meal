@@ -1,6 +1,8 @@
 $(function () {
 	var trim = $.trim;
-	$('#form-new-restaurant').on('submit', function () {
+	
+	$('#form-new-restaurant')
+	.on('submit', function () {
 		var $self = $(this);
 		var $name = $('#restaurant-name');
 		var $menu = $('#hidden-menu');
@@ -20,7 +22,8 @@ $(function () {
 		if (!trim($name.val()) || !menu.length) {
 			return false;
 		}
-	}).on('click', '.add-menu', function () {
+	})
+	.on('click', '.add-menu', function () {
 		var $self = $(this);
 		var $currentMenu = $self.closest('.menu');
 		var $currentName = $currentMenu.find('.meal-name');
@@ -36,8 +39,11 @@ $(function () {
 		$currentMenu.after($newMenu);
 		$newMenu.find('.meal-name').val('').focus();
 		$newMenu.find('.meal-price').val('');
-	}).on('click', '.del-menu', function () {
+	})
+	.on('click', '.del-menu', function () {
 		var $self = $(this);
 		$self.closest('.menu').remove();
-	});
+	})
+	.find('.form-group.menu').last().append('<button class="add-menu btn btn-default">添加菜单</button>')
+	.siblings('.form-group.menu').append('<button class="del-menu btn btn-danger">删除菜单</button>');
 });

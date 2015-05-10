@@ -36,7 +36,8 @@ Order.getOrdersList = function *(query) {
 	query = query || {};
 	var orders = yield db.find(query, {
 		sort: {
-			status: 1
+			day: -1,
+			time: -1
 		}
 	});
 	
@@ -46,7 +47,6 @@ Order.getOrdersList = function *(query) {
 			orders[i].restaurantName = restaurant.name;
 		}
 	}
-	
 	return orders;
 };
 

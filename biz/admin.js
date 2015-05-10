@@ -104,6 +104,18 @@ module.exports.ajaxConfirmPay = function *(id) {
 	}) + ')';
 };
 
+module.exports.ajaxUpdateServing = function *(id) {
+	var query = this.query;
+	
+	yield Restaurant.update(id, {
+		serving: query.serving === 'true'
+	});
+	
+	this.body = this.query.callback + '(' + JSON.stringify({
+		success: true
+	}) + ')';		
+};
+
 function authorize (app) {
 	var user = app.session.user;
 	if (config.adminUser.indexOf(user) === -1) {

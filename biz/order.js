@@ -9,14 +9,12 @@ var Order = require('../models/order');
 module.exports.myOrders = function *() {
 	var user = this.session.user;
 	var day = time(new Date()).day;
-	var ordersList = yield Order.getOrdersList({
-		user: user,
-		day: day
+	var orders = yield Order.getOrdersList({
+		user: user
 	});	
-	
 	this.body = yield render(this, 'myOrders', {
 		nav: 'myOrders',
-		orders: ordersList
+		orders: orders
 	});
 };
 
